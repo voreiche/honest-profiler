@@ -1,0 +1,53 @@
+{
+  "variables": {
+    "java_rpm": "jdk-8u60-linux-x64.rpm"
+  },
+  "builders": [
+    {
+      "type": "docker",
+      "image": "fedora:21",
+      "commit": "true",
+      "volumes": {
+        "{{pwd}}/installers": "/data"
+      }
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "file",
+      "source": "{{pwd}}/honest-profiler",
+      "destination": "/"
+    },
+    {
+      "type": "shell",
+      "scripts": [
+        "scripts/install-java.sh"
+      ],
+      "environment_vars": [
+        "JAVA_RPM=/data/{{user `java_rpm`}}"
+      ]
+    },
+    {
+      "type": "shell",
+      "scripts": [
+        "scripts/install-dependencies.sh"
+      ]
+    },
+    {
+         "type": "shell",
+         "inline": [
+            "JAVA_HOME=/usr/java/jdk1.8.0_60"
+         ]
+      }
+  ],
+  "post-processors": [
+    [
+      {
+        "type": "docker-tag",
+        "repository": "voreiche/honest-profiler",
+        "tag": "0.1.0vr",
+        "force": "true"
+      }
+    ]
+  ]
+}

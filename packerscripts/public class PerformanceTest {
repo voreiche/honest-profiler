@@ -1,0 +1,28 @@
+public class PerformanceTest {
+	public static void main(String[] args){
+		PerformanceTest pt= new PerformanceTest(1000000);
+		pt.prepareLoop();
+		pt.doLoop();
+		pt.endLoop();
+	}
+
+	private void prepareLoop(){
+		System.out.println("Prepare Loop")
+		for (int i= 0; i < loopCount / 10; i++){
+			Math.random();
+		}
+	}
+
+	private void doLoop(){
+		for (int i= 0; i < loopCount; i++){
+			Math.random();
+		}
+	}
+
+	private void endLoop(){
+		for (int i= 0; i < loopCount / 10; i++){
+			Math.random();
+		}
+		System.out.println("Loop Ended");
+	}
+}
